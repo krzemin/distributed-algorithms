@@ -2,7 +2,7 @@
 -author("krzemin").
 
 -include_lib("eunit/include/eunit.hrl").
--import(graph, [clique/1]).
+-import(graph, [clique/1, map/2]).
 
 clique_basic_test() ->
   ?assert(clique(0) == []),
@@ -19,4 +19,8 @@ clique_complex_test() ->
   C6 = lists:append(C5, [{1,6},{2,6},{3,6},{4,6},{5,6}]),
   ?assert(clique(6) == C6).
 
+map_test() ->
+  C3 = clique(3),
+  C3Plus10 = map(fun(V) -> V + 10 end, C3),
+  ?assert(C3Plus10 == [{11,12},{11,13},{12,13}]).
 
