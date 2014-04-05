@@ -10,6 +10,6 @@ clique_basic_test() ->
   ?assert(clique(2) == [{1,2}]).
 
 clique_complex_test() ->
-  ?assert(clique(3) == [{1,2},{2,3},{1,3}]).
+  ?assert(clique(3) == [{1,2},{1,3},{2,3}]).
 
 
