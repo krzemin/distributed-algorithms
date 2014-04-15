@@ -25,18 +25,21 @@ p(K, N, Pids) ->
       io:format(user, "process ~p received die message~n", [K]) ;
     {K1, M} ->
       io:format(user, "process ~p received message ~p from ~p~n", [K, M, K1]),
-
+      D = diffidx(K1, K),
+      send_to_neighbours(M, K, D, Pids),
       p(K, N, Pids) ;
     M ->
-      lists:foreach(fun(I) ->
-          K1 = flipbit(K, I),
-          Pid = lists:nth(K1, Pids),
-          Pid ! {K, M}
-        end,
-        lists:seq(0, N - 1)
-      ),
+      io:format(user, "process ~p received initial message ~p~n", [K, M]),
+      send_to_neighbours(M, K, N, Pids),
       p(K, N, Pids)
   end.
+
+send_to_neighbours(M, K, N, Pids) ->
+  Bits = lists:seq(0, N - 1),
+  FlippedKs = lists:map(fun(B) -> flipbit(K, B) end, Bits),
+  PidsToSend = lists:map(fun(K1) -> lists:nth(K1 + 1, Pids) end, FlippedKs),
+  lists:foreach(fun(Pid) -> Pid ! {K, M} end, PidsToSend).
+
 
 flipbit(K, I) ->
   K bxor (1 bsl I).
