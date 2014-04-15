@@ -37,7 +37,7 @@ p(K, Neighs) ->
   end.
 
 q(K, Neighs, M, Parent, Received) ->
-  NeighIds = lists:map(fun({Id, _}) -> Id end, Neighs),
+  NeighIds = [Id || {Id, _} <- Neighs],
   if
     NeighIds == Received ->
       io:format(user, "process ~p finished broadcasting~n", [K]),
