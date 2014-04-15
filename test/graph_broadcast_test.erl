@@ -9,7 +9,7 @@
 spawn_and_die_test() ->
   IdsPids = setup(clique(6)),
   ?assert(6 == length(IdsPids)),
-  lists:foreach(fun({Id, Pid}) -> Pid ! die end, IdsPids).
+  lists:foreach(fun({_, Pid}) -> Pid ! die end, IdsPids).
 
 broadcast_test() ->
   IdsPids = setup(clique(6)),
