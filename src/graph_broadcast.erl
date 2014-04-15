@@ -29,27 +29,34 @@ p(K, Neighs) ->
       io:format(user, "process ~p received message ~p from ~p~n", [K, M, Parent]),
       NeighsWithoutParent = lists:filter(fun({Id, _}) -> Id =/= Parent end, Neighs),
       send_to_neighbours(M, K, NeighsWithoutParent),
-      q(K, Neighs, Parent, [Parent]) ;
+      q(K, Neighs, M, Parent, [Parent]) ;
     M ->
       io:format(user, "process ~p received initial message ~p~n", [K, M]),
       send_to_neighbours(M, K, Neighs),
-      q(K, Neighs, -1, [])
+      q(K, Neighs, M, 0, [])
   end.
 
-q(K, Neighs, Parent, Received) ->
-  NeighIds = lists:map(fun({Id, _} -> Id end, Neighs),
+q(K, Neighs, M, Parent, Received) ->
+  NeighIds = lists:map(fun({Id, _}) -> Id end, Neighs),
   if
     NeighIds == Received ->
-      io:format(user, "process ~p finished broadcasting~n", [K]) ;
-      Parent ! M
+      io:format(user, "process ~p finished broadcasting~n", [K]),
+      if
+        Parent > 0 ->
+          {_, NPid} = proplists:lookup(Parent, Neighs),
+          NPid ! {K, M} ;
+        true -> finish
+      end ;
     true ->
       receive
         {K1, _} ->
-          io:format(user, "process ~p received reply from~n", [K, K1]) ;
-          q(K, Neighs, Parent)
+          io:format(user, "process ~p received reply from ~p~n", [K, K1]),
+          q(K, Neighs, M, Parent, lists:sort([K1|Received]))
       end
   end.
 
+send_to_neighbours(M, K, Neighs) ->
+  lists:foreach(fun({_, Pid}) -> Pid ! {K, M} end, Neighs).
 
 setup(G) ->
   N = graph_size(G),
