@@ -12,15 +12,28 @@
 %% API
 %%-export([]).
 
-p(K) ->
+init(K) ->
   receive
-    X ->
-      io:format(user, "process ~p received message ~p~n", [K, X])
+    Pids ->
+      io:format(user, "initializing process ~p with pid list ~p~n", [K, Pids]),
+      p(K, Pids)
   end.
+
+p(K, Pids) ->
+  receive
+    die ->
+      io:format(user, "process ~p received die message~n", [K])
+  end.
+
+
+
 
 setup(N) ->
   Ids = lists:seq(0, round(math:pow(2, N)) - 1),
-  lists:map(fun(K) -> spawn(fun() -> p(K) end) end, Ids).
+  Pids = lists:map(fun(K) -> spawn(fun() -> init(K) end) end, Ids),
+  lists:foreach(fun(Pid) -> Pid ! Pids end, Pids),
+  Pids.
+
 
 
 

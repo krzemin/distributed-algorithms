@@ -11,5 +11,5 @@ spawn_and_die_test() ->
   io:format("hahahaha~n"),
   Pids = cube_broadcast:setup(4),
   ?assert(16 == length(Pids)),
-  lists:foreach(fun(Pid) -> Pid ! zdychaj end, Pids).
+  lists:foreach(fun(Pid) -> Pid ! die end, Pids).
 
