@@ -23,8 +23,33 @@ init(K) ->
 
 p(K, Neighs) ->
   receive
-    X -> io:format(user, "process ~p received message ~p~n", [K, X])
+    die ->
+      io:format(user, "process ~p received die message~n", [K]) ;
+    {Parent, M} ->
+      io:format(user, "process ~p received message ~p from ~p~n", [K, M, Parent]),
+      NeighsWithoutParent = lists:filter(fun({Id, _}) -> Id =/= Parent end, Neighs),
+      send_to_neighbours(M, K, NeighsWithoutParent),
+      q(K, Neighs, Parent, [Parent]) ;
+    M ->
+      io:format(user, "process ~p received initial message ~p~n", [K, M]),
+      send_to_neighbours(M, K, Neighs),
+      q(K, Neighs, -1, [])
   end.
+
+q(K, Neighs, Parent, Received) ->
+  NeighIds = lists:map(fun({Id, _} -> Id end, Neighs),
+  if
+    NeighIds == Received ->
+      io:format(user, "process ~p finished broadcasting~n", [K]) ;
+      Parent ! M
+    true ->
+      receive
+        {K1, _} ->
+          io:format(user, "process ~p received reply from~n", [K, K1]) ;
+          q(K, Neighs, Parent)
+      end
+  end.
+
 
 setup(G) ->
   N = graph_size(G),

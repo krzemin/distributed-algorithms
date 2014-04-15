@@ -11,3 +11,8 @@ spawn_and_die_test() ->
   ?assert(6 == length(IdsPids)),
   lists:foreach(fun({Id, Pid}) -> Pid ! die end, IdsPids).
 
+broadcast_test() ->
+  IdsPids = setup(clique(6)),
+  ?assert(6 == length(IdsPids)),
+  [{_, P0}|_] = IdsPids,
+  P0 ! secret_message.
