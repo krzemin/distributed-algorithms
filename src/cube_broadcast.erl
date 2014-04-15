@@ -36,8 +36,8 @@ p(K, N, Pids) ->
 
 send_to_neighbours(M, K, N, Pids) ->
   Bits = lists:seq(0, N - 1),
-  FlippedKs = lists:map(fun(B) -> flipbit(K, B) end, Bits),
-  PidsToSend = lists:map(fun(K1) -> lists:nth(K1 + 1, Pids) end, FlippedKs),
+  FlippedKs = [flipbit(K, B) || B <- Bits],
+  PidsToSend = [ lists:nth(K1 + 1, Pids) || K1 <- FlippedKs],
   lists:foreach(fun(Pid) -> Pid ! {K, M} end, PidsToSend).
 
 
@@ -50,7 +50,7 @@ diffidx(K1, K2) ->
 
 setup(N) ->
   Ids = lists:seq(0, round(math:pow(2, N)) - 1),
-  Pids = lists:map(fun(K) -> spawn(fun() -> init(K, N) end) end, Ids),
+  Pids = [spawn(fun() -> init(K, N) end) || K <- Ids],
   lists:foreach(fun(Pid) -> Pid ! Pids end, Pids),
   Pids.
 

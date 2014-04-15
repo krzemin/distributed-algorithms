@@ -14,8 +14,8 @@ clique(2) -> [{1,2}] ;
 clique(N) ->
   V1 = clique(N - 1),
   Sq = lists:seq(1, N - 1),
-  V2 = lists:map(fun(V) -> {V, N} end, Sq),
-  lists:append(V1, V2).
+  V2 = [{V, N} || V <- Sq],
+  V1 ++ V2.
 
 -spec map(F, [Edge]) -> [Edge] when
   F :: fun((V) -> V),
@@ -23,7 +23,7 @@ clique(N) ->
   Edge :: {V, V}.
 
 map(F, G) ->
-  lists:map(fun({V,U}) -> {F(V), F(U)} end, G).
+  [{F(V), F(U)} || {V, U} <- G].
 
 graph_size([]) -> 0 ;
 graph_size([{V1, V2} | Es]) ->

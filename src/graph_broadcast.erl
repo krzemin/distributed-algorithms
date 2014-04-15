@@ -27,8 +27,8 @@ p(K, Neighs) ->
       io:format(user, "process ~p received die message~n", [K]) ;
     {Parent, M} ->
       io:format(user, "process ~p received message ~p from ~p~n", [K, M, Parent]),
-      NeighsWithoutParent = lists:filter(fun({Id, _}) -> Id =/= Parent end, Neighs),
-      send_to_neighbours(M, K, NeighsWithoutParent),
+      NeighsWoParent = [{Id, Pid} || {Id, Pid} <- Neighs, Id =/= Parent],
+      send_to_neighbours(M, K, NeighsWoParent),
       q(K, Neighs, M, Parent, [Parent]) ;
     M ->
       io:format(user, "process ~p received initial message ~p~n", [K, M]),
@@ -62,12 +62,10 @@ setup(G) ->
   N = graph_size(G),
   Ids = lists:seq(1, N),
   NArr = to_neighbours_array(G),
-  IdsPids = lists:map(fun(K) -> {K, spawn(fun() -> init(K) end)} end, Ids),
+  IdsPids = [{K, spawn(fun() -> init(K) end)} || K <- Ids],
   lists:foreach(fun({K, Pid}) ->
       NList = array:get(K, NArr),
-      Neighs = lists:filter(fun({Id, _}) ->
-          lists:member(Id, NList)
-        end, IdsPids),
+      Neighs = [{Id, Pid} || {Id, Pid} <- IdsPids, lists:member(Id, NList)],
       Pid ! Neighs
     end,
     IdsPids),
