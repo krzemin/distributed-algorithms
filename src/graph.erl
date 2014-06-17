@@ -4,31 +4,29 @@
 %% API
 -export([clique/1, map/2, graph_size/1, to_neighbours_array/1]).
 
--spec clique(N) -> [Edge] when
-  N :: non_neg_integer(),
-  V :: non_neg_integer(),
-  Edge :: {V, V}.
-
+% clique() creates clique of size N represented as set of edges
 clique(N) when N < 2 -> [] ;
 clique(2) -> [{1,2}] ;
 clique(N) ->
   V1 = clique(N - 1),
-  Sq = lists:seq(1, N - 1),
-  V2 = [{V, N} || V <- Sq],
+  Seq = lists:seq(1, N - 1),
+  V2 = [{V, N} || V <- Seq],
   V1 ++ V2.
 
--spec map(F, [Edge]) -> [Edge] when
-  F :: fun((V) -> V),
-  V :: non_neg_integer(),
-  Edge :: {V, V}.
-
+% map() maps a function over a list of edges
 map(F, G) ->
   [{F(V), F(U)} || {V, U} <- G].
 
+% graph_size() returns size of graph (N) represented as list of edges
+% assuming that verticies are numbered from 1 to N
 graph_size([]) -> 0 ;
 graph_size([{V1, V2} | Es]) ->
   max(max(V1, V2), graph_size(Es)).
 
+
+% to_neighbours_array() converts graph represented as list of edges
+% to representation which is mapping from i-th node to its direct
+% neighbours
 to_neighbours_array(G) ->
   N = graph_size(G),
   to_neighbours_array(G, array:new(N+1, {default, []})).
