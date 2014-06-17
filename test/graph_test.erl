@@ -2,7 +2,7 @@
 -author("krzemin").
 
 -include_lib("eunit/include/eunit.hrl").
--import(graph, [clique/1, map/2, graph_size/1, to_neighbours_array/1]).
+-import(graph, [clique/1, cycle/1, map/2, graph_size/1, to_neighbours_array/1]).
 
 clique_basic_test() ->
   ?assert(clique(0) == []),
@@ -18,6 +18,12 @@ clique_complex_test() ->
   ?assert(clique(5) == C5),
   C6 = lists:append(C5, [{1,6},{2,6},{3,6},{4,6},{5,6}]),
   ?assert(clique(6) == C6).
+
+cycle_test() ->
+  ?assert(cycle(2) == [{1,2}]),
+  ?assert(cycle(3) == [{1,3},{1,2},{2,3}]),
+  ?assert(cycle(4) == [{1,4},{1,2},{2,3},{3,4}]),
+  ?assert(cycle(5) == [{1,5},{1,2},{2,3},{3,4},{4,5}]).
 
 map_test() ->
   C3 = clique(3),

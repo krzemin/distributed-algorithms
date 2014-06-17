@@ -7,7 +7,7 @@
 %
 
 %% API
--export([clique/1, map/2, graph_size/1, to_neighbours_array/1]).
+-export([clique/1, cycle/1, map/2, graph_size/1, to_neighbours_array/1]).
 
 % clique() creates clique of size N represented as set of edges
 clique(N) when N < 2 -> [] ;
@@ -17,6 +17,13 @@ clique(N) ->
   Seq = lists:seq(1, N - 1),
   V2 = [{V, N} || V <- Seq],
   V1 ++ V2.
+
+% cycle() creates a cycle of size N
+cycle(2) -> [{1,2}];
+cycle(N) ->
+  Seq = lists:seq(1, N - 1),
+  V1 = lists:map(fun(K) -> {K, K+1} end, Seq),
+  [{1,N}|V1].
 
 % map() maps a function over a list of edges
 map(F, G) ->
@@ -44,5 +51,3 @@ to_neighbours_array([{V1, V2}|Es], Arr) ->
   Arr1 = array:set(V1, [V2|V1List], Arr),
   Arr2 = array:set(V2, [V1|V2List], Arr1),
   to_neighbours_array(Es, Arr2).
-
-
