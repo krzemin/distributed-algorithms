@@ -11,9 +11,17 @@
 -import(graph, [graph_size/1, to_neighbours_array/1]).
 -compile(export_all).
 
+%
+% This module contains implementation of broadcasting algorithm over
+% an arbitrary graph
+%
+
+
 %% API
 %%-export([]).
 
+% init() is entry-point for K-th process waiting to receive a Pid list and
+% then immediately invoking p() function which is main algorithm
 init(K) ->
   receive
     Neighs ->
@@ -21,6 +29,7 @@ init(K) ->
       p(K, Neighs)
   end.
 
+% p() is main processing function in 1st state of every process
 p(K, Neighs) ->
   receive
     die ->
@@ -36,6 +45,7 @@ p(K, Neighs) ->
       q(K, Neighs, M, 0, [])
   end.
 
+% () is main processing function in 2nd stage of every process
 q(K, Neighs, M, Parent, Received) ->
   NeighIds = [Id || {Id, _} <- Neighs],
   if
@@ -55,9 +65,11 @@ q(K, Neighs, M, Parent, Received) ->
       end
   end.
 
+% send_to_neighbours() is helper routine which sends messge M to all neighbours
 send_to_neighbours(M, K, Neighs) ->
   lists:foreach(fun({_, Pid}) -> Pid ! {K, M} end, Neighs).
 
+% setup() creates processes collects Pid list and returns it
 setup(G) ->
   N = graph_size(G),
   Ids = lists:seq(1, N),
