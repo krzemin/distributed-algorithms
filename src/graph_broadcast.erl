@@ -23,6 +23,7 @@
 % init() is entry-point for K-th process waiting to receive a Pid list and
 % then immediately invoking p() function which is main algorithm
 init(K) ->
+  io:format(user, "waiting for neighbours list at process ~p~n", [K]),
   receive
     Neighs ->
       io:format(user, "initializing process ~p with neigbours list ~p~n", [K, Neighs]),
@@ -70,7 +71,7 @@ send_to_neighbours(M, K, Neighs) ->
   lists:foreach(fun({_, Pid}) -> Pid ! {K, M} end, Neighs).
 
 % setup() creates processes collects Pid list and returns it
-setup(G) ->
+setup_local(G) ->
   N = graph_size(G),
   Ids = lists:seq(1, N),
   NArr = to_neighbours_array(G),
@@ -80,6 +81,20 @@ setup(G) ->
       Neighs = [{Id, Pid} || {Id, Pid} <- IdsPids, lists:member(Id, NList)],
       Pid ! Neighs
     end,
+    IdsPids),
+  IdsPids.
+
+setup_cluster(G) ->
+  Nodes = [node()|nodes()], NodesSize = length(Nodes),
+  N = graph_size(G),
+  Ids = lists:seq(1, N),
+  NArr = to_neighbours_array(G),
+  IdsPids = [{K, spawn(lists:nth(1 + K rem NodesSize, Nodes), fun() -> graph_broadcast:init(K) end)} || K <- Ids],
+  lists:foreach(fun({K, Pid}) ->
+    NList = array:get(K, NArr),
+    Neighs = [{Id, Pid} || {Id, Pid} <- IdsPids, lists:member(Id, NList)],
+    Pid ! Neighs
+  end,
     IdsPids),
   IdsPids.
 
