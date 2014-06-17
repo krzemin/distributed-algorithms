@@ -1,6 +1,11 @@
 -module(graph).
 -author("krzemin").
 
+%
+% This module contains routines operating on graphs in abstract
+% representations
+%
+
 %% API
 -export([clique/1, map/2, graph_size/1, to_neighbours_array/1]).
 
