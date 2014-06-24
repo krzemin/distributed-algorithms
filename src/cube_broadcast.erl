@@ -56,12 +56,18 @@ diffidx(K1, K2) ->
 
 % setup() creates 2^N processes numbered from 0 to 2^(N-1), sends Pid list
 % to every one of them after it is known
-setup(N) ->
+setup_local(N) ->
   Ids = lists:seq(0, round(math:pow(2, N)) - 1),
   Pids = [spawn(fun() -> init(K, N) end) || K <- Ids],
   lists:foreach(fun(Pid) -> Pid ! Pids end, Pids),
   Pids.
 
+setup_cluster(N) ->
+  Nodes = [node()|nodes()], NodesSize = length(Nodes),
+  Ids = lists:seq(0, round(math:pow(2, N)) - 1),
+  Pids = [spawn(lists:nth(1 + K rem NodesSize, Nodes), fun() -> cube_broadcast:init(K, N) end) || K <- Ids],
+  lists:foreach(fun(Pid) -> Pid ! Pids end, Pids),
+  Pids.
 
 
 

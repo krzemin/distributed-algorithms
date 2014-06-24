@@ -6,12 +6,12 @@
 
 
 spawn_and_die_test() ->
-  Pids = setup(4),
+  Pids = setup_local(4),
   ?assert(16 == length(Pids)),
   lists:foreach(fun(Pid) -> Pid ! die end, Pids).
 
 broadcast_test() ->
-  Pids = setup(4),
+  Pids = setup_local(4),
   ?assert(16 == length(Pids)),
   [P0 | _] = Pids,
   P0 ! secret_message.
