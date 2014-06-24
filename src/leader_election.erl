@@ -27,9 +27,13 @@ non_participant(K, Neighs) ->
   receive
     begin_election ->
       NextPid = next(K, Neighs),
-      NextPid ! election(self()),
+      NextPid ! {election, self()},
       participant(K, Neighs)
   end.
+
+participant(K, Neighs) ->
+  ok.
+
 
 next(K, Neighs) ->
   case proplists:get_value(K+1, Neighs) of
