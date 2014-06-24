@@ -9,7 +9,52 @@
 1. Opis zagadnienia
 
   Jako zadanie na pracownię został wybrany temat zaimplementowania kilku
-klasycznych algorytmów rozproszonych w języku Erlang.
+klasycznych algorytmów rozproszonych w języku Erlang. Aglorytmy działają
+w środowisku asynchronicznym, realizowanym przez wiele procesów. Dzięki
+użyciu Erlanga łatwe staje się zapewnienie dwóch bardzo ważnych cech
+w ujęciu systemów rozproszonych:
+
+  - przenośności (ang. portability) -- zaimplementowane przez nas algorytmy
+    uruchamiają się na różnych platformach sprzętowych; w naszych testach
+    udało się połączyć w jednym algorytmie procesy Erlangowe, kontrolowane
+    zarówno przez systemy Linux (w różnych wersjach), jak i Windows,
+
+  - przezroczystości położenia (ang. location transparency) -- z punktu
+    widzenia programu erlangowego nie ma znaczenia czy jednostka, do której
+    wysyłamy komunikat znajduje się na tej samej fizycznej maszynie,
+    na innym komputerze w tej samej sieci, czy też na zdalnej maszynie,
+    być może na innym kontynencie
+
+  Jako język programowania wybraliśmy Erlanga ze względu na jego specyficzne
+właściwości, użyteczne podczas implementowania systemów współbieżnych,
+szczegółowo opisane w podrozdziale 1.1.
+
+1.1 Model procesów Erlanga
+
+  Erlang powstał w laboratoriach firmy Ericsoon w latach '80 XX wieku,
+początkowo jako projekt badawczy mający na celu przegląd istniejących
+współcześnie języków programowania w kontekście ich użyteczności
+do implementacji systemów współbieżnych. Okazało się, że żaden z ówcześnie
+istniejących języków nie spełnia oczekiwanych kryteriów, wobec czego
+postawnowiono zbudować nowy język, składniowo wzorowany na Prologu, który
+jako model współbieżności przyjmie model aktorów (ang. Actor Model).
+
+  W modelu aktorów, na scenie (w systemie) występują procesy, które mogą
+komunikować się tylko przy użyciu komunikatów. Nie współdzielą ze sobą pamięci,
+ani żadnych innych zasobów, wobec czego klasyczne metody synchronizacji,
+takie jak semafory czy muteksy nie są potrzebne. Dzięki temu (przynajmniej
+teoretycznie) wzrasta wydajność aplikacji, zwiększa się czytelność kodu,
+mamy mniejsze szanse napotkania błędów (np. zakleszczenie), tak wszędobylskich
+w systemach współbieżnych realizowanych za pomocą języków sekwencyjnych.
+
+  Niestety, Erlang nie gwarantuje dostarczenia komunikatu do odbiorcy
+w kolejności, w jakiej zostały wysłane; nie gwarantuje jego dostarczenia
+w ogóle! Toteż w związku ze zmianą paradygmatu myślenia o współbieżności,
+pojawiają się nowe wyzwania, którym programista musi sprostać.
+
+  Niemniej jednak Erlang został okrzyknięty pierwszym, powszechnie używanym
+językiem współbieżnym. W ramach pracowni chcieliśmy zapoznać się z nim
+poprzez implementację kilku prostych algorytmów.
 
 2. Wymagania(?)
 3. Wykaz algorytmów
