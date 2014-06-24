@@ -33,13 +33,46 @@ init(K) ->
 non_participant(K, Neighs) ->
   receive
     begin_election ->
-      NextPid = next(K, Neighs),
-      NextPid ! {election, self()},
-      participant(K, Neighs)
-  end.
+      io:format(user, "process ~p started election with candidate ~n", [K, self()]),
+      next(K, Neighs) ! {election, self()} ;
+    {election, Candidate} ->
+      self() ! {election_not_participant, Candidate}
+  end,
+  participant(K, Neighs).
 
 participant(K, Neighs) ->
-  ok.
+  receive
+    {election, Candidate} ->
+      io:format(user, "process ~p (participant) received election proposal ~p~n", [K, Candidate]),
+      if
+        self() == Candidate ->
+          leader(K, Neighs) ;
+        self() < Candidate ->
+          io:format(user, "process ~p (participant) is worse candidate; passing received to next process", [K, Candidate]),
+          next(K, Neighs) ! {election, Candidate},
+          participant(K, Neighs) ;
+        self() > Candidate ->
+          io:format(user, "process ~p (participant) is better candidate; skipping", [K, Candidate]),
+          participant(K, Neighs)
+      end ;
+    {election_not_participant, Candidate} ->
+      io:format(user, "process ~p (not participant) received election proposal ~p~n", [K, Candidate]),
+      if
+        self() == Candidate ->
+          leader(K, Neighs) ;
+        self() < Candidate ->
+          io:format(user, "process ~p (not participant) is worse candidate; passing received to next process", [K, Candidate]),
+          next(K, Neighs) ! {election, Candidate},
+          participant(K, Neighs) ;
+        self() > Candidate ->
+          io:format(user, "process ~p (not participant) is better candidate; passing itself to next process", [K, Candidate]),
+          next(K, Neighs) ! {election, self()}
+      end
+  end.
+
+leader(K, Neighs) ->
+  io:format(user, "process ~p has just been elected as a leader", [K]).
+
 
 
 next(K, Neighs) ->
