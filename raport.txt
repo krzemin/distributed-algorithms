@@ -64,7 +64,7 @@ uruchomimy na klastrze złożonym z kilku komputerów.
 
   Do uruchomienia symulacji potrzebna jest maszyna wirtualna Erlanga,
 najlepiej w aktualnej wersji (OTP 17.0). Oprogramowanie można pobrać
-z witryny [2], dostępne w wersji binarnej dla systemu Windows lub w wersji
+z witryny [1], dostępne w wersji binarnej dla systemu Windows lub w wersji
 źródłowej dla pozostałych systemów.
 
 
@@ -91,10 +91,14 @@ hiperkostkę.
 
 3.2.2 Opis algorytmu
 
-  Każdemu z wierzchołków zostaje przypisany numer zgodnie z kodowaniem Graya.
-Jeżeli wierzchołki mają numery, których zapis bitowy różni się jedynie na
-jednej pozycji, to są one sąsiadami. 
-
+    I Każdemu z wierzchołków zostaje przypisany numer zgodnie z kodowaniem Graya.
+      Jeżeli wierzchołki mają numery, których zapis bitowy różni się jedynie na
+      jednej pozycji, to są one sąsiadami. 
+   II Wierzchołek A otrzymuje wiadomość M od procesu B.
+  III Wyznaczamy D - pozycje bitu, który różni numery A i B.
+   IV A rozsyła M do sąsiednich procesów, których numer różni się od A nie dalej
+      niż na bicie numer D.
+      
 3.3 Wybór lidera
 
 3.3.1 Problem
@@ -104,7 +108,7 @@ jednej pozycji, to są one sąsiadami.
 3.3.2 Opis algorytmu Changa-Robertsa
    
   Wykorzystaliśmy algorytm rozproszony zaproponowany przez Changa 
-i Robertsa [1].
+i Robertsa [2].
   
    I Początkowo każdy proces w pierścieniu jest oznaczony jako
      nieuczestniczący oraz ma przyznany niepowtarzalny identyfikator (UID).
@@ -129,8 +133,8 @@ Jako UID zastosowaliśmy identyfikatory procesów generowane przez Erlanga.
 
 5. Bibliografia
 
-  [1] Ernest Chang; Rosemary Roberts (1979), "An improved algorithm for
+  [1] http://www.erlang.org/download.html
+  [2] Ernest Chang; Rosemary Roberts (1979), "An improved algorithm for
       decentralized extrema-finding in circular configurations of processes",
       Communications of the ACM (ACM) 22 (5): 281–283, 
       doi:10.1145/359104.359108
-  [2] http://www.erlang.org/download.html
