@@ -81,23 +81,22 @@ z witryny [2], dostępne w wersji binarnej dla systemu Windows lub w wersji
   Wykorzystaliśmy algorytm rozproszony zaproponowany przez Changa 
 i Robertsa [1].
   
-  1. Początkowo każdy proces w pierścieniu jest oznaczony jako
+   I Początkowo każdy proces w pierścieniu jest oznaczony jako
      nieuczestniczący oraz ma przyznany niepowtarzalny identyfikator (UID).
-  2. Proces zauważający brak lidera rozpoczyna wybory. Tworzy on komunikat
+  II Proces zauważający brak lidera rozpoczyna wybory. Tworzy on komunikat
     'election' zawierający UID, który wysyła do sąsiada zgodnie z ruchem
      wskazówek zegara.
-  3. Za każdym razem, kiedy proces wysyła lub przekazuje komunikat, oznacza
+ III Za każdym razem, kiedy proces wysyła lub przekazuje komunikat, oznacza
      samego siebie jako uczestnika.
-  4. Proces otrzymując komunikat 'election' porównuje otrzymany
-     identyfikator(A) z własnym(B)
-     
-    - jeżeli A > B to proces bezwarunkowo przekazuje komunikat do sąsiada
-      zgodnie z ruchem wskazówek zegara.
-    - jeżeli A < B i proces nie był jeszcze uczestnikiem to przesyła komunikat 
-      'election'  do sąsiada zgodnie z ruchem wskazówek zegara, zastępując A za
-      pomocą B.
-    - jeżeli A < B i proces był już uczestnikiem to proces ignoruje komunikat.
-    - jeżeli A = B proces zostaje uznany za lideda.
+  IV Proces otrzymując komunikat 'election' porównuje otrzymany
+     identyfikator(A) z własnym (B)
+     - jeżeli A > B to proces bezwarunkowo przekazuje komunikat do sąsiada
+       zgodnie z ruchem wskazówek zegara,
+     - jeżeli A < B i proces nie był jeszcze uczestnikiem to przesyła komunikat
+       'election'  do sąsiada zgodnie z ruchem wskazówek zegara, zastępując A
+       za pomocą B,
+     - jeżeli A < B i proces był już uczestnikiem to proces ignoruje komunikat,
+     - jeżeli A = B proces zostaje uznany za lideda.
 
 Jako UID zastosowaliśmy identyfikatory procesów generowane przez Erlanga.
   
