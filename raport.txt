@@ -69,14 +69,39 @@ z witryny [2], dostępne w wersji binarnej dla systemu Windows lub w wersji
 
 
 3. Wykaz algorytmów
-3.1 broadcast
-3.2 broadcast w kostce
-3.3 wybór lidera
+3.1 Algorytm rozgłaszania w grafie
+
+3.1.1 Problem
+
+  Dla zadanej sieci w postaci grafu dostarczyć wiadomość do każdego wierzchołka
+
+3.1.2 Opis algorytmu
+
+    I Wierzchołek A dostaje komunikat M od wierzchołka B.
+   II A rozsyła M do sąsiadów z wyłączeniem B.
+  III A zlicza sąsiadów od których otrzymał M. Po otrzymaniu jej od wszystkich
+      kończy rozsyłanie
+     
+3.2 Algorytm rozgłaszania w hiperkostce
+
+3.2.1 Problemu
+
+  Problem tożsamy z 3.1.1 z dodanym założeniem o topologii sieci, która stanowi
+hiperkostkę.
+
+3.2.2 Opis algorytmu
+
+  Każdemu z wierzchołków zostaje przypisany numer zgodnie z kodowaniem Graya.
+Jeżeli wierzchołki mają numery, których zapis bitowy różni się jedynie na
+jednej pozycji, to są one sąsiadami. 
+
+3.3 Wybór lidera
+
 3.3.1 Problem
 
   Dla sieci o topologii pierścienia należy wybrać proces pełniący rolę lidera.
 
-3.3.2 Algorytm Changa-Robertsa
+3.3.2 Opis algorytmu Changa-Robertsa
    
   Wykorzystaliśmy algorytm rozproszony zaproponowany przez Changa 
 i Robertsa [1].
