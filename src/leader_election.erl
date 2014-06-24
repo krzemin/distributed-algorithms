@@ -96,22 +96,6 @@ next(K, Neighs) ->
     Pid -> Pid
   end.
 
-%
-% Get counter-clockwise direction neighbor for K
-%
-% Params:
-%   K - process id
-%   Neighs - process neighbors
-%
-%
-prev(1, Neighs) ->
-  Keys = proplists:get_keys(Neighs),
-  MaxNeighId = lists:max(Keys),
-  proplists:get_value(MaxNeighId, Neighs) ;
-prev(K, Neighs) -> proplists:get_value(K - 1, Neighs).
-
-
-
 
 
 setup_local(N) ->
