@@ -18,8 +18,16 @@ klasycznych algorytmów rozproszonych w języku Erlang.
 3.3 wybór lidera
 3.3.1 Problem
 
+  Dla sieci o topologii pierścienia należy wybrać urządzenie/proces
+pełniący rolę lidera.
+
 3.3.2 Algorytm Changa-Robertsa
    
-   
+  Wykorzystaliśmy algorytm rozproszony zaproponowany przez Changa i Robertsa [1]. 
   
 4. Instrukcja obsługi
+5. Bibliografia
+  [1] Ernest Chang; Rosemary Roberts (1979), "An improved algorithm for
+      decentralized extrema-finding in circular configurations of processes",
+      Communications of the ACM (ACM) 22 (5): 281–283, 
+      doi:10.1145/359104.359108
