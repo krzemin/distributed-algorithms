@@ -5,6 +5,7 @@
 3.2 broadcast w kostce
 3.3 wybór lidera
 3.3.1 Problem
+
 3.3.2 Algorytm Changa-Robertsa
    
    
