@@ -73,35 +73,37 @@ z witryny [1], dostępne w wersji binarnej dla systemu Windows lub w wersji
 
 
 3. Wykaz algorytmów
-3.1 Algorytm rozgłaszania w grafie
+
+3.1 Algorytm rozgłaszania w dowolnym grafie
 
 3.1.1 Problem
 
-  Dla zadanej sieci w postaci grafu dostarczyć wiadomość do każdego wierzchołka
+  Dla zadanej sieci w postaci grafu dostarczyć wiadomość do każdego
+wierzchołka.
 
 3.1.2 Opis algorytmu
 
     I Wierzchołek A dostaje komunikat M od wierzchołka B.
    II A rozsyła M do sąsiadów z wyłączeniem B.
-  III A zlicza sąsiadów od których otrzymał M. Po otrzymaniu jej od wszystkich
-      kończy rozsyłanie
+  III A zlicza sąsiadów od których otrzymał M. Po otrzymaniu jej od
+      wszystkich kończy wysyłanie.
      
 3.2 Algorytm rozgłaszania w hiperkostce
 
-3.2.1 Problemu
+3.2.1 Problem
 
-  Problem tożsamy z 3.1.1 z dodanym założeniem o topologii sieci, która stanowi
-hiperkostkę.
+  Problem tożsamy z 3.1.1 z dodanym założeniem o topologii sieci, która
+stanowi hiperkostkę.
 
 3.2.2 Opis algorytmu
 
-    I Każdemu z wierzchołków zostaje przypisany numer zgodnie z kodowaniem Graya.
-      Jeżeli wierzchołki mają numery, których zapis bitowy różni się jedynie na
-      jednej pozycji, to są one sąsiadami. 
+    I Każdemu z wierzchołków zostaje przypisany numer zgodnie
+      z kodowaniem Graya. Jeżeli wierzchołki mają numery, których zapis
+      bitowy różni się jedynie na jednej pozycji, to są one sąsiadami.
    II Wierzchołek A otrzymuje wiadomość M od procesu B.
   III Wyznaczamy D - pozycje bitu, który różni numery A i B.
-   IV A rozsyła M do sąsiednich procesów, których numer różni się od A nie dalej
-      niż na bicie numer D.
+   IV A rozsyła M do sąsiednich procesów, których numer różni się od A
+      nie dalej niż na bicie numer D.
       
 3.3 Wybór lidera
 
@@ -114,24 +116,25 @@ hiperkostkę.
   Wykorzystaliśmy algorytm rozproszony zaproponowany przez Changa 
 i Robertsa [2].
   
-   I Początkowo każdy proces w pierścieniu jest oznaczony jako
-     nieuczestniczący oraz ma przyznany niepowtarzalny identyfikator (UID).
-  II Proces zauważający brak lidera rozpoczyna wybory. Tworzy on komunikat
-    'election' zawierający UID, który wysyła do sąsiada zgodnie z ruchem
-     wskazówek zegara.
- III Za każdym razem, kiedy proces wysyła lub przekazuje komunikat, oznacza
-     samego siebie jako uczestnika.
-  IV Proces otrzymując komunikat 'election' porównuje otrzymany
-     identyfikator(A) z własnym (B)
-     - jeżeli A > B to proces bezwarunkowo przekazuje komunikat do sąsiada
-       zgodnie z ruchem wskazówek zegara,
-     - jeżeli A < B i proces nie był jeszcze uczestnikiem to przesyła komunikat
-       'election'  do sąsiada zgodnie z ruchem wskazówek zegara, zastępując A
-       za pomocą B,
-     - jeżeli A < B i proces był już uczestnikiem to proces ignoruje komunikat,
-     - jeżeli A = B proces zostaje uznany za lidera.
+    I Początkowo każdy proces w pierścieniu jest oznaczony jako
+      nieuczestniczący oraz ma przyznany niepowtarzalny identyfikator (UID).
+   II Proces zauważający brak lidera rozpoczyna wybory. Tworzy on komunikat
+     'election' zawierający UID, który wysyła do sąsiada zgodnie z ruchem
+      wskazówek zegara.
+  III Za każdym razem, kiedy proces wysyła lub przekazuje komunikat, oznacza
+      samego siebie jako uczestnika.
+   IV Proces otrzymując komunikat 'election' porównuje otrzymany
+      identyfikator(A) z własnym (B)
+      - jeżeli A > B to proces bezwarunkowo przekazuje komunikat do sąsiada
+        zgodnie z ruchem wskazówek zegara;
+      - jeżeli A < B i proces nie był jeszcze uczestnikiem to przesyła
+        komunikat 'election' do sąsiada zgodnie z ruchem wskazówek zegara,
+        zastępując A za pomocą B;
+      - jeżeli A < B i proces był już uczestnikiem to proces ignoruje
+        komunikat;
+      - jeżeli A = B proces zostaje uznany za lidera.
 
-Jako UID zastosowaliśmy identyfikatory procesów generowane przez Erlanga.
+  Jako UID zastosowaliśmy identyfikatory procesów generowane przez Erlanga.
 
 
 4. Wykaz plików i katalogów
