@@ -129,7 +129,7 @@ i Robertsa [2].
        'election'  do sąsiada zgodnie z ruchem wskazówek zegara, zastępując A
        za pomocą B,
      - jeżeli A < B i proces był już uczestnikiem to proces ignoruje komunikat,
-     - jeżeli A = B proces zostaje uznany za lideda.
+     - jeżeli A = B proces zostaje uznany za lidera.
 
 Jako UID zastosowaliśmy identyfikatory procesów generowane przez Erlanga.
 
@@ -170,7 +170,7 @@ Wypisane zostaną sformatowane przez nas komunikaty diagnostyczne.
 
 5.1 Tworzenie klastra
 
-  Aby utworzyć klaster, musimy posiadać conajmniej jeden komputer, który
+  Aby utworzyć klaster, musimy posiadać co najmniej jeden komputer, który
 będzie widoczny w sieci dla pozostałych. Musimy znać jego publicznie
 dostępną nazwę hosta. Załóżmy, że jest to 'alfa'. Uruchamiamy
 powłokę za pomocą polecenia:
@@ -310,7 +310,15 @@ w obrębie klastra.
 znaleźć w pliku z testami, dla odpowiedniego algorytmu.
 
 
-6. Bibliografia
+6. Uwagi
+
+  Implementacje w/w algorytmów są jedynie przykładowe i poprawne tylko
+pod warunkiem, że wszystkie wysłane komunikaty dotrą do odbiorców. Nie
+zostały zaimplementowane żadne mechanizmy potwierdzania otrzymania
+wiadomości, ponawianiach ich wysyłania, czy wykrywania awarii w systemie.
+
+
+7. Bibliografia
 
   [1] http://www.erlang.org/download.html
   [2] Ernest Chang; Rosemary Roberts (1979), "An improved algorithm for
