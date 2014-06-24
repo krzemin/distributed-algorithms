@@ -132,8 +132,28 @@ i Robertsa [2].
      - jeżeli A = B proces zostaje uznany za lideda.
 
 Jako UID zastosowaliśmy identyfikatory procesów generowane przez Erlanga.
-  
-4. Instrukcja obsługi
+
+
+4. Wykaz plików i katalogów
+
+  Poniżej przedstawiony jest opis plików i katalogów, wchodzących w skład
+rozwiązania.
+
+./raport.txt                      -  ten dokument
+./src                             -  katalog z modułami źródłowymi
+./src/cube_broadcast.erl          -  algorytm rozgłaszania w hiperkostce
+./src/graph.erl                   -  biblioteka do reprezentacji grafów
+./src/graph_broadcast.erl         -  algorytm rozgłaszania w dowolnym grafie
+./src/leader_election.erl         -  algorytm wyboru lidera w pierścieniu
+./test                            -  katalog z modułami testowymi do
+                                     odpowiednich modułów źródłowych
+./test/cube_broadcast_test.erl
+./test/graph_broadcast_test.erl
+./test/graph_test.erl
+./test/leader_election_test.erl
+
+
+5. Instrukcja obsługi
 
   Aby uruchomić symulację, należy najpierw zainstalować w systemie maszynę
 wirtualną erlanga, która dostarczy nam polecenia systemowego `erl` - powłoki
@@ -148,7 +168,7 @@ inicjalizacyjnego do wybranego procesu, co uruchomi algorytm. Wyniki
 działania algorytmu będzie można obserwować w poszczególnych powłokach.
 Wypisane zostaną sformatowane przez nas komunikaty diagnostyczne.
 
-4.1 Tworzenie klastra
+5.1 Tworzenie klastra
 
   Aby utworzyć klaster, musimy posiadać conajmniej jeden komputer, który
 będzie widoczny w sieci dla pozostałych. Musimy znać jego publicznie
@@ -184,7 +204,7 @@ test@alfa> node().
   Dla pozostałych węzłów, postępujemy tak samo. W efekcie możemy uzyskać
 klaster złożony z kilku, kilkudziesięciu czy nawet kilkuste komputerów.
 
-4.1.1 Sieć nakładkowa
+5.1.1 Sieć nakładkowa
 
   Wspomnieliśmy, że publiczny adres wymagany jest tylko przez jeden węzeł
 w sieci, a pozostałe komputery nie muszą się wzajemnie "widzieć". Pomimo tego,
@@ -192,11 +212,105 @@ komunikaty w klastrze erlangowym nadal będą przekazywane. Dzieje się tak
 dlatego, że Erlang podczas budowy klastra dynamicznie tworzy pewną sieć
 nakładkową, w której samodzielnie wyznacza trasy, którymi wędrują komunikaty.
 
-4.2 Kompilacja modułów.
+5.2 Kompilacja modułów
+
+  Aby skompilować moduł z kodem źródłowym, należy każdą powłokę uruchomić
+w katalogu z modułami źródłowymi (src). Kompilacji dokonujemy za pomocą
+następujących poleceń:
+
+> c(graph).
+ok
+> c(leader_selection).
+ok
+
+  Skompilowaliśmy właśnie moduł z algorytmem Changa-Robertsa.
+
+5.3 Uruchomienie symulacji
+
+  Symulację możemy przeprowadzić lokalnie, bądź w obrębie klastra
+obliczeniowego.
+
+5.3.1 Test lokalny
+
+  W powłoce ze skompilowanym modułem wpisujemy:
+
+> IdsWithPids = leader_election:setup_local(5).
+waiting for neighbours list at process 1
+waiting for neighbours list at process 2
+waiting for neighbours list at process 3
+waiting for neighbours list at process 4
+waiting for neighbours list at process 5
+initializing process 1 with neigbours list [{2,<0.214.0>},{5,<0.217.0>}]
+initializing process 2 with neigbours list [{1,<0.213.0>},{3,<0.215.0>}]
+initializing process 3 with neigbours list [{2,<0.214.0>},{4,<0.216.0>}]
+initializing process 4 with neigbours list [{3,<0.215.0>},{5,<0.217.0>}]
+initializing process 5 with neigbours list [{1,<0.213.0>},{4,<0.216.0>}]
+[{1,<0.213.0>},
+ {2,<0.214.0>},
+ {3,<0.215.0>},
+ {4,<0.216.0>},
+ {5,<0.217.0>}]
+> [{_,InitPid}|_] = IdsWithPids.
+[{1,<0.213.0>},
+ {2,<0.214.0>},
+ {3,<0.215.0>},
+ {4,<0.216.0>},
+ {5,<0.217.0>}]
+> InitPid ! begin_election.
+begin_election.
+process 1 started election with candidate <0.213.0>
+process 2 (not participant) received election proposal <0.213.0>
+process 2 (not participant) is better candidate than <0.213.0>; passing itself
+to next process
+process 3 (not participant) received election proposal <0.214.0>
+process 3 (not participant) is better candidate than <0.214.0>; passing itself
+to next process
+process 4 (not participant) received election proposal <0.215.0>
+process 4 (not participant) is better candidate than <0.215.0>; passing itself
+to next process
+process 5 (not participant) received election proposal <0.216.0>
+process 5 (not participant) is better candidate than <0.216.0>; passing itself
+to next process
+process 1 (participant) received election proposal <0.217.0>
+process 1 (participant) is worse candidate; passing received <0.217.0> to next
+process
+process 2 (participant) received election proposal <0.217.0>
+process 2 (participant) is worse candidate; passing received <0.217.0> to next
+process
+process 3 (participant) received election proposal <0.217.0>
+process 3 (participant) is worse candidate; passing received <0.217.0> to next
+process
+process 4 (participant) received election proposal <0.217.0>
+process 4 (participant) is worse candidate; passing received <0.217.0> to next
+process
+process 5 (participant) received election proposal <0.217.0>
+process 5 has just been elected as a leader
+
+  Powyższa, przykładowa sesja powłoki obrazuje w jaki sposób można uruchomić
+algorytm wyboru lidera w warunkach lokalnych, bez konieczności zestawiania
+klastra.
+
+5.3.2 Test zdalny
+
+  Dzięki systemowi klastrowania Erlanga, po zestawieniu klastra, możemy
+z dowolnej powłoki należącej do klastra uruchomić proces w taki sam sposób.
+Jedyną różnica polega na tym, że zamiast polecenia:
+
+> leader_election:setup_local(5).
+
+... wywołujemy polecenie:
+
+> leader_election:setup_cluster(5).
+
+... a funkcja zestawiająca zadba, aby rozproszyć procesy równomiernie,
+w obrębie klastra.
 
 
+  Uruchamianie pozostałych algorytmów jest analogiczne. Szczegóły można
+znaleźć w pliku z testami, dla odpowiedniego algorytmu.
 
-5. Bibliografia
+
+6. Bibliografia
 
   [1] http://www.erlang.org/download.html
   [2] Ernest Chang; Rosemary Roberts (1979), "An improved algorithm for
