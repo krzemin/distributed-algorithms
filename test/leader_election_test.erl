@@ -3,7 +3,7 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
--import(leader_election, [next/2, prev/2]).
+-import(leader_election, [next/2]).
 
 next_test() ->
   Neighs = [{1,a}, {2,b}, {3,c}],
