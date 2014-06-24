@@ -54,7 +54,7 @@ w kolejności, w jakiej zostały wysłane; nie gwarantuje jego dostarczenia
 w ogóle! Toteż w związku ze zmianą paradygmatu myślenia o współbieżności,
 pojawiają się nowe wyzwania, którym programista musi sprostać.
 
-  Niemniej jednak Erlang został okrzyknięty pierwszym, powszechnie używanym
+  Niemniej jednak Erlanga okrzyknięto pierwszym, powszechnie używanym
 językiem współbieżnym. W ramach pracowni chcieliśmy zapoznać się z nim
 poprzez implementację kilku prostych algorytmów współbieżnych, które
 uruchomimy na klastrze złożonym z kilku komputerów.
