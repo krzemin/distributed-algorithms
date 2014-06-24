@@ -20,7 +20,7 @@ init(K) ->
   receive
     Neighs ->
       io:format(user, "initializing process ~p with neigbours list ~p~n", [K, Neighs]),
-      p(K, Neighs)
+      non_participant(K, Neighs)
   end.
 
 non_participant(K, Neighs) ->
