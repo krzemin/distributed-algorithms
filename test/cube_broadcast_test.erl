@@ -2,7 +2,7 @@
 -author("krzemin").
 
 -include_lib("eunit/include/eunit.hrl").
--import(cube_broadcast, [setup/1, flipbit/2, diffidx/2]).
+-import(cube_broadcast, [setup_local/1, flipbit/2, diffidx/2]).
 
 
 spawn_and_die_test() ->
