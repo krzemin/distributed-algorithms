@@ -23,6 +23,13 @@ init(K) ->
       non_participant(K, Neighs)
   end.
 
+
+%
+% Cases when proces is non participant
+%
+% Messages:
+%   begin_election - send election message to clockwise neighboor and go to participant state
+%
 non_participant(K, Neighs) ->
   receive
     begin_election ->
