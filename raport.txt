@@ -33,7 +33,7 @@ szczegółowo opisane w podrozdziale 1.1.
 
 1.1 Model procesów Erlanga
 
-  Erlang powstał w laboratoriach firmy Ericsoon w latach '80 XX wieku,
+  Erlang powstał w laboratoriach firmy Ericsson w latach '80 XX wieku,
 początkowo jako projekt badawczy mający na celu przegląd istniejących
 współcześnie języków programowania w kontekście ich użyteczności
 do implementacji systemów współbieżnych. Okazało się, że żaden z ówcześnie
