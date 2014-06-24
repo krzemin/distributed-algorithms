@@ -1,4 +1,16 @@
+
+
+                      Maciej Jabłoński, Piotr Krzemiński
+
+                  Raport do pracowni z Systemów Rozproszonych
+
+
+
 1. Opis zagadnienia
+
+  Jako zadanie na pracownię został wybrany temat zaimplementowania kilku
+klasycznych algorytmów rozproszonych w języku Erlang.
+
 2. Wymagania(?)
 3. Wykaz algorytmów
 3.1 broadcast
