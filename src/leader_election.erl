@@ -26,9 +26,13 @@ init(K) ->
 
 %
 % Cases when proces is non participant
+% 
+% Params:
+%   K - process id
+%   Neighs - process neighbors
 %
 % Messages:
-%   begin_election - send election message to clockwise neighboor and go to participant state
+%   begin_election - send election message to clockwise neighbor and go to participant state
 %
 non_participant(K, Neighs) ->
   receive
@@ -42,12 +46,31 @@ participant(K, Neighs) ->
   ok.
 
 
+%
+% Utils functions
+%
+
+% Get clockwise direction neighbor for K
+%
+% Params:
+%   K - process id
+%   Neighs - process neighbors
+%
+%
 next(K, Neighs) ->
   case proplists:get_value(K+1, Neighs) of
     undefined -> proplists:get_value(1, Neighs) ;
     Pid -> Pid
   end.
 
+%
+% Get counter-clockwise direction neighbor for K
+%
+% Params:
+%   K - process id
+%   Neighs - process neighbors
+%
+%
 prev(1, Neighs) ->
   Keys = proplists:get_keys(Neighs),
   MaxNeighId = lists:max(Keys),
