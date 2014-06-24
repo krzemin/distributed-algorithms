@@ -70,7 +70,8 @@ participant(K, Neighs) ->
           participant(K, Neighs) ;
         self() > Candidate ->
           io:format(user, "process ~p (not participant) is better candidate than ~p; passing itself to next process ~n", [K, Candidate]),
-          next(K, Neighs) ! {election, self()}
+          next(K, Neighs) ! {election, self()},
+          participant(K, Neighs)
       end
   end.
 
