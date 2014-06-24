@@ -49,6 +49,10 @@ teoretycznie) wzrasta wydajność aplikacji, zwiększa się czytelność kodu,
 mamy mniejsze szanse napotkania błędów (np. zakleszczenie), tak wszędobylskich
 w systemach współbieżnych realizowanych za pomocą języków sekwencyjnych.
 
+  Procesy erlangowe zaimplementowane są jako tzw. ultra-lekkie procesy,
+których przy obecnych możliwościach pamięciowych możemy mieć setki tysięcy,
+a nawet miliony na jednym komputerze!
+
   Niestety, Erlang nie gwarantuje dostarczenia komunikatu do odbiorcy
 w kolejności, w jakiej zostały wysłane; nie gwarantuje jego dostarczenia
 w ogóle! Toteż w związku ze zmianą paradygmatu myślenia o współbieżności,
@@ -130,6 +134,17 @@ i Robertsa [2].
 Jako UID zastosowaliśmy identyfikatory procesów generowane przez Erlanga.
   
 4. Instrukcja obsługi
+
+  Aby uruchomić symulację, należy najpierw zainstalować w systemie maszynę
+wirtualną erlanga, która dostarczy nam polecenia systemowego `erl` - powłoki
+języka, przy pomocy której przeprowadzimy symulację. Następnie połączymy
+kilka powłok w klaster, w którym powłoki będą pełnić rolę węzłów (ang. node).
+Warto zaznaczyć, że w obrębie jednego węzła możemy uruchomić dowolną liczbę
+procesów.
+
+
+4.1 Tworzenie klastra
+
 
 5. Bibliografia
 
