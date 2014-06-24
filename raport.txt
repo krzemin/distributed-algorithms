@@ -1,7 +1,12 @@
 1. Opis zagadnienia
 2. Wymagania(?)
-3. wykaz algorytmów
-   a) broadcast
-   b) broadcast w kostce
-   c) wybór lidera
+3. Wykaz algorytmów
+3.1 broadcast
+3.2 broadcast w kostce
+3.3 wybór lidera
+3.3.1 Problem
+3.3.2 Algorytm Changa-Robertsa
+   
+   
+  
 4. Instrukcja obsługi
