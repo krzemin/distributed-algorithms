@@ -140,10 +140,60 @@ wirtualną erlanga, która dostarczy nam polecenia systemowego `erl` - powłoki
 języka, przy pomocy której przeprowadzimy symulację. Następnie połączymy
 kilka powłok w klaster, w którym powłoki będą pełnić rolę węzłów (ang. node).
 Warto zaznaczyć, że w obrębie jednego węzła możemy uruchomić dowolną liczbę
-procesów.
-
+procesów. Po utworzeniu klastra załadujemy ręcznie potrzebne moduły
+zawierające naszą implementację algorytmów, po czym wywołamy funkcję
+setup_claster/1, która odpowiada za utworzenie procesów i rozproszenie
+ich w obrębie klastra. Następnym krokiem będzie wysłanie komunikatu
+inicjalizacyjnego do wybranego procesu, co uruchomi algorytm. Wyniki
+działania algorytmu będzie można obserwować w poszczególnych powłokach.
+Wypisane zostaną sformatowane przez nas komunikaty diagnostyczne.
 
 4.1 Tworzenie klastra
+
+  Aby utworzyć klaster, musimy posiadać conajmniej jeden komputer, który
+będzie widoczny w sieci dla pozostałych. Musimy znać jego publicznie
+dostępną nazwę hosta. Załóżmy, że jest to 'alfa'. Uruchamiamy
+powłokę za pomocą polecenia:
+
+erl -name test@alfa -setcookie sernik
+
+  W wierszu poleceń oprócz nazwy powłoki (test) i hosta (alfa), przekazaliśmy
+również tzw. ciastko (cookie), które ustawiliśmy na 'sernik'. Dla Erlanga
+węzły chcące połączyć się do tego samego klastra, powinny mieć ustawioną
+tę samą wartość ciastka.
+  Podłączmy teraz drugą maszynę.
+
+erl -name test@beta -setcookie sernik
+
+  W wierszu powłoki 'test@beta' wpiszmy polecenie:
+
+test@beta> net_kernel:connect_node('test@alfa').
+true
+test@beta> nodes().
+['test@alfa']
+test@beta> node().
+'test@beta'
+
+  Drugi komputer też powinien zauważyć, że ktoś dołączył do klastra.
+
+test@alfa> nodes().
+['test@beta']
+test@alfa> node().
+'test@alfa'
+
+  Dla pozostałych węzłów, postępujemy tak samo. W efekcie możemy uzyskać
+klaster złożony z kilku, kilkudziesięciu czy nawet kilkuste komputerów.
+
+4.1.1 Sieć nakładkowa
+
+  Wspomnieliśmy, że publiczny adres wymagany jest tylko przez jeden węzeł
+w sieci, a pozostałe komputery nie muszą się wzajemnie "widzieć". Pomimo tego,
+komunikaty w klastrze erlangowym nadal będą przekazywane. Dzieje się tak
+dlatego, że Erlang podczas budowy klastra dynamicznie tworzy pewną sieć
+nakładkową, w której samodzielnie wyznacza trasy, którymi wędrują komunikaty.
+
+4.2 Kompilacja modułów.
+
 
 
 5. Bibliografia
