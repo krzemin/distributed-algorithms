@@ -54,9 +54,18 @@ pojawiają się nowe wyzwania, którym programista musi sprostać.
 
   Niemniej jednak Erlang został okrzyknięty pierwszym, powszechnie używanym
 językiem współbieżnym. W ramach pracowni chcieliśmy zapoznać się z nim
-poprzez implementację kilku prostych algorytmów.
+poprzez implementację kilku prostych algorytmów współbieżnych, które
+uruchomimy na klastrze złożonym z kilku komputerów.
 
-2. Wymagania(?)
+
+2. Wymagania
+
+  Do uruchomienia symulacji potrzebna jest maszyna wirtualna Erlanga,
+najlepiej w aktualnej wersji (OTP 17.0). Oprogramowanie można pobrać
+z witryny [2], dostępne w wersji binarnej dla systemu Windows lub w wersji
+źródłowej dla pozostałych systemów.
+
+
 3. Wykaz algorytmów
 3.1 broadcast
 3.2 broadcast w kostce
@@ -98,3 +107,4 @@ Jako UID zastosowaliśmy identyfikatory procesów generowane przez Erlanga.
       decentralized extrema-finding in circular configurations of processes",
       Communications of the ACM (ACM) 22 (5): 281–283, 
       doi:10.1145/359104.359108
+  [2] http://www.erlang.org/download.html
