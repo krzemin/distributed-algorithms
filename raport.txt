@@ -38,7 +38,7 @@ początkowo jako projekt badawczy mający na celu przegląd istniejących
 współcześnie języków programowania w kontekście ich użyteczności
 do implementacji systemów współbieżnych. Okazało się, że żaden z ówcześnie
 istniejących języków nie spełnia oczekiwanych kryteriów, wobec czego
-postawnowiono zbudować nowy język, składniowo wzorowany na Prologu, który
+postanowiono zbudować nowy język, składniowo wzorowany na Prologu, który
 jako model współbieżności przyjmie model aktorów (ang. Actor Model).
 
   W modelu aktorów, na scenie (w systemie) występują procesy, które mogą
