@@ -96,8 +96,9 @@ next(K, Neighs) ->
     Pid -> Pid
   end.
 
-
-
+%
+% Run demo on local node
+%
 setup_local(N) ->
   G = cycle(N),
   Ids = lists:seq(1, N),
@@ -111,4 +112,21 @@ setup_local(N) ->
     IdsPids),
   IdsPids.
 
+
+%
+% Run demo on every node
+%
+setup_cluster(N) ->
+  Nodes = [node()|nodes()], NodesSize = length(Nodes),
+  G = cycle(N),
+  Ids = lists:seq(1, N),
+  NArr = to_neighbours_array(G),
+  IdsPids = [{K, spawn(lists:nth(1 + K rem NodesSize, Nodes), fun() -> leader_election:init(K) end)}  || K <- Ids],
+  lists:foreach(fun({K, Pid}) ->
+    NList = array:get(K, NArr),
+    Neighs = [{Id, Pid} || {Id, Pid} <- IdsPids, lists:member(Id, NList)],
+    Pid ! Neighs
+  end,
+    IdsPids),
+  IdsPids.
 
