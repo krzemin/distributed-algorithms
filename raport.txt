@@ -1,0 +1,7 @@
+1. Opis zagadnienia
+2. Wymagania(?)
+3. wykaz algorytmów
+   a) broadcast
+   b) broadcast w kostce
+   c) wybór lidera
+4. Instrukcja obsługi
